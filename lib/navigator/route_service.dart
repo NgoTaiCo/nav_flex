@@ -17,6 +17,19 @@ class RouteManager {
     return route.toString().split('.').last;
   }
 
+  static Widget getWidgetForRoute(AppRoutes route) {
+    switch (route) {
+      case AppRoutes.home:
+        return const HomePage();
+      case AppRoutes.details:
+        return const DetailsPage();
+      case AppRoutes.history:
+        return const HistoryPage();
+      default:
+        return const HomePage(); // Default case to prevent errors
+    }
+  }
+
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     final routeName = settings.name;
     final routeBuilder = routes[routeName];
@@ -24,6 +37,6 @@ class RouteManager {
     if (routeBuilder != null) {
       return MaterialPageRoute(builder: routeBuilder, settings: settings);
     }
-    return null; // Route not found
+    return null;
   }
 }

@@ -3,36 +3,31 @@ import 'package:nav_flex/navigator/argument_service.dart';
 
 class NavigationService {
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  static final List<String> _history = [];
+  static final List<String> history = [];
   static bool isPopUntilActive = false;
 
   static void addInitialRoute(String routeName) {
-    if (_history.isEmpty) {
-      _history.add(routeName);
+    if (history.isEmpty) {
+      history.add(routeName);
     }
   }
 
-  static Future<T?>? push<T>(Widget page, {Map<String, Object?>? arguments}) {
+  static Future<T?>? push<T>(Widget page,
+      {Map<String, Object?>? arguments, required RouteTransitionsBuilder transitionsBuilder}) {
     String routeName = ModalRoute.of(navigatorKey.currentContext!)?.settings.name ?? 'Unknown';
     if (arguments != null) {
       arguments.forEach((key, value) {
         ArgumentsService.setArguments(key, value);
       });
     }
-    _history.add(routeName);
-    return navigatorKey.currentState?.push<T>(
-      MaterialPageRoute(builder: (_) => page),
-    );
-  }
+    history.add(routeName);
 
-  static Future<T?>? pushNamed<T>(String routeName, {Map<String, Object?>? arguments}) {
-    if (arguments != null) {
-      arguments.forEach((key, value) {
-        ArgumentsService.setArguments(key, value);
-      });
-    }
-    _history.add(routeName);
-    return navigatorKey.currentState?.pushNamed<T>(routeName);
+    return navigatorKey.currentState?.push<T>(
+      CustomPageRoute(
+        page: page,
+        transitionsBuilder: transitionsBuilder,
+      ),
+    );
   }
 
   static void pop<T>([T? result]) {
@@ -42,35 +37,34 @@ class NavigationService {
     }
   }
 
-  static Future<T?>? replace<T, TO>(Widget page, {Map<String, Object?>? arguments}) {
+  static Future<T?>? replace<T, TO>(Widget page,
+      {Map<String, Object?>? arguments, required RouteTransitionsBuilder transitionsBuilder}) {
     String routeName = ModalRoute.of(navigatorKey.currentContext!)?.settings.name ?? 'Unknown';
     if (arguments != null) {
       arguments.forEach((key, value) {
         ArgumentsService.setArguments(key, value);
       });
     }
-    _history.removeLast();
-    _history.add(routeName);
+    history.removeLast();
+    history.add(routeName);
+
     return navigatorKey.currentState?.pushReplacement<T, TO>(
-      MaterialPageRoute(builder: (_) => page),
+      CustomPageRoute(
+        page: page,
+        transitionsBuilder: transitionsBuilder,
+      ),
     );
   }
 
-  static Future<T?>? replaceNamed<T, TO>(String routeName, {Map<String, Object?>? arguments}) {
-    if (arguments != null) {
-      arguments.forEach((key, value) {
-        ArgumentsService.setArguments(key, value);
-      });
+  static void removeLastRoute() {
+    if (isPopUntilActive) return;
+    if (history.isNotEmpty) {
+      history.removeLast();
     }
-    _history.removeLast();
-    _history.add(routeName);
-    return navigatorKey.currentState?.pushReplacementNamed<T, TO>(routeName);
   }
 
-  static List<String> get history => List.unmodifiable(_history);
-
   static void popUntil(String routeName) {
-    int targetIndex = _history.indexOf(routeName);
+    int targetIndex = history.indexOf(routeName);
     if (targetIndex == -1) return;
 
     isPopUntilActive = true;
@@ -78,18 +72,25 @@ class NavigationService {
     navigatorKey.currentState?.popUntil((route) {
       bool shouldPop = route.settings.name == routeName;
       if (shouldPop) {
-        _history.removeRange(targetIndex + 1, _history.length);
+        history.removeRange(targetIndex + 1, history.length);
       }
       return shouldPop;
     });
 
     isPopUntilActive = false;
   }
+}
 
-  static void removeLastRoute() {
-    if (isPopUntilActive) return;
-    if (_history.isNotEmpty) {
-      _history.removeLast();
-    }
-  }
+class CustomPageRoute<T> extends PageRouteBuilder<T> {
+  final Widget page;
+  @override
+  final RouteTransitionsBuilder transitionsBuilder;
+
+  CustomPageRoute({
+    required this.page,
+    required this.transitionsBuilder, // Pass the custom transition builder
+  }) : super(
+          pageBuilder: (context, animation, secondaryAnimation) => page,
+          transitionsBuilder: transitionsBuilder, // Use the builder here
+        );
 }
