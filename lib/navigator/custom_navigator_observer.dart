@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:nav_flex/navigator/navigation_service.dart';
+part of 'nav_flex.dart';
 
 class CustomNavigatorObserver extends NavigatorObserver {
   @override

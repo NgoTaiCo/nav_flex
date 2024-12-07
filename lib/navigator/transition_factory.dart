@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+part of 'nav_flex.dart';
 
 class TransitionFactory {
   /// Slide transition with customizable start, end, and curve.

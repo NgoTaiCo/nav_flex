@@ -1,8 +1,6 @@
 // home_page.dart
 import 'package:flutter/material.dart';
-import 'package:nav_flex/navigator/navigation_service.dart';
-import 'package:nav_flex/navigator/route_service.dart';
-import 'package:nav_flex/navigator/transition_factory.dart';
+import 'package:nav_flex/navigator/nav_flex.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,8 +13,9 @@ class HomePage extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
             NavigationService.push(
-              RouteManager.getWidgetForRoute(AppRoutes.details),
-              arguments: {'id': 42},
+              context: context,
+              routeName: "detailPage",
+              arguments: {'id': 42, 'name': "John"},
               transitionsBuilder: TransitionFactory.slideTransition(),
             );
           },

@@ -1,38 +1,32 @@
-// route_manager.dart
-import 'package:flutter/material.dart';
-import 'package:nav_flex/pages/detail_page.dart';
-import 'package:nav_flex/pages/history_page.dart';
-import 'package:nav_flex/pages/home_page.dart';
+part of 'nav_flex.dart';
 
-enum AppRoutes { home, details, history }
+class RouteService {
+  // Map để lưu trữ các route mà người dùng thêm vào
+  static final Map<String, WidgetBuilder> _customRoutes = {};
 
-class RouteManager {
-  static Map<String, WidgetBuilder> get routes => {
-        getRouteName(AppRoutes.home): (_) => const HomePage(),
-        getRouteName(AppRoutes.details): (_) => const DetailsPage(),
-        getRouteName(AppRoutes.history): (_) => const HistoryPage(),
-      };
+  // Trả về các routes đã đăng ký (dynamically thêm từ bên ngoài)
+  static Map<String, WidgetBuilder> get routes => _customRoutes;
 
-  static String getRouteName(AppRoutes route) {
-    return route.toString().split('.').last;
+  // Hàm để người dùng có thể đăng ký route mới
+  static void addRoute(String routeName, WidgetBuilder builder) {
+    _customRoutes[routeName] = builder;
   }
 
-  static Widget getWidgetForRoute(AppRoutes route) {
-    switch (route) {
-      case AppRoutes.home:
-        return const HomePage();
-      case AppRoutes.details:
-        return const DetailsPage();
-      case AppRoutes.history:
-        return const HistoryPage();
-      default:
-        return const HomePage(); // Default case to prevent errors
+  // Trả về Widget tương ứng với route
+  static Widget getWidgetForRoute(String routeName, BuildContext context) {
+    final builder = _customRoutes[routeName];
+    if (builder != null) {
+      return builder(context); // Thêm BuildContext khi gọi builder
     }
+    return const Scaffold(
+      body: Center(child: Text('Page not found')),
+    ); // Trường hợp không tìm thấy route
   }
 
+  // Xử lý điều hướng theo route
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     final routeName = settings.name;
-    final routeBuilder = routes[routeName];
+    final routeBuilder = _customRoutes[routeName];
 
     if (routeBuilder != null) {
       return MaterialPageRoute(builder: routeBuilder, settings: settings);

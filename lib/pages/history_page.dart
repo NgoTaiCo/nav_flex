@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nav_flex/navigator/navigation_service.dart';
+import 'package:nav_flex/navigator/nav_flex.dart';
 
 class HistoryPage extends StatelessWidget {
   const HistoryPage({super.key});
