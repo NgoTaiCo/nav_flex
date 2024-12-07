@@ -18,7 +18,12 @@ class NavigationService {
     Map<String, Object?>? arguments,
     required RouteTransitionsBuilder transitionsBuilder,
     required BuildContext context,
-  }) {
+  }) async {
+    final canNavigate = await RouteService.checkGuard(routeName);
+    if (!canNavigate || !context.mounted) {
+      return null;
+    }
+
     Widget page = RouteService.getWidgetForRoute(routeName, context);
 
     history.add(routeName);
@@ -41,13 +46,17 @@ class NavigationService {
     }
   }
 
-  // Hàm thay thế route hiện tại
   static Future<T?>? replace<T, TO>({
     required String routeName,
     Map<String, Object?>? arguments,
     required RouteTransitionsBuilder transitionsBuilder,
     required BuildContext context,
-  }) {
+  }) async {
+    final canNavigate = await RouteService.checkGuard(routeName);
+    if (!canNavigate || !context.mounted) {
+      return null;
+    }
+
     Widget page = RouteService.getWidgetForRoute(routeName, context);
 
     history.removeLast();
