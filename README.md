@@ -105,3 +105,27 @@ This package demonstrates a custom navigation system for Flutter applications us
         },
     );
    ```
+## How to use
+   1. push
+   ```dart
+   ElevatedButton(
+          onPressed: () {
+            NavigationService.push(
+              context: context,
+              routeName: "detailPage",
+              arguments: {'id': 42, 'name': "John"},
+              transitionsBuilder: TransitionFactory.slideTransition(),
+            );
+          },
+          child: const Text('Go to Details'),
+        ),
+   ```
+   2. popUntil
+   ```dart
+   ListTile(
+      title: Text(routeName),
+      onTap: () {
+        NavigationService.popUntil(routeName);
+      },
+    );
+   ```
