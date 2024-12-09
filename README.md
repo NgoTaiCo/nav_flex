@@ -91,9 +91,8 @@ This package demonstrates a custom navigation system for Flutter applications us
     ```
 
 ## Navigation Guards
-    You can add guards to routes for access control. For example, the DetailsPage adds a guard to the HistoryPage route simulate access control:
-
-    ```dart
+   You can add guards to routes for access control. For example, the DetailsPage adds a guard to the HistoryPage route simulate access control:
+   ```dart
     RouteService.addRoute(
     'historyPage',
     (context) => const HistoryPage(),
@@ -105,4 +104,4 @@ This package demonstrates a custom navigation system for Flutter applications us
             return hasAccess;
         },
     );
-    ```
+   ```
