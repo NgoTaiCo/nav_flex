@@ -33,7 +33,8 @@ class TransitionFactory {
     Curve curve = Curves.easeInOut,
   }) {
     return (context, animation, secondaryAnimation, child) {
-      var tween = Tween<Offset>(begin: begin, end: end).chain(CurveTween(curve: curve));
+      var tween =
+          Tween<Offset>(begin: begin, end: end).chain(CurveTween(curve: curve));
       var offsetAnimation = animation.drive(tween);
       return SlideTransition(position: offsetAnimation, child: child);
     };
@@ -84,7 +85,8 @@ class TransitionFactory {
     Curve curve = Curves.easeInOut,
   }) {
     return (context, animation, secondaryAnimation, child) {
-      var scaleTween = Tween<double>(begin: beginScale, end: endScale).chain(CurveTween(curve: curve));
+      var scaleTween = Tween<double>(begin: beginScale, end: endScale)
+          .chain(CurveTween(curve: curve));
       var scaleAnimation = animation.drive(scaleTween);
       return ScaleTransition(scale: scaleAnimation, child: child);
     };
@@ -110,7 +112,8 @@ class TransitionFactory {
     Curve curve = Curves.easeInOut,
   }) {
     return (context, animation, secondaryAnimation, child) {
-      var angleTween = Tween<double>(begin: beginAngle, end: endAngle).chain(CurveTween(curve: curve));
+      var angleTween = Tween<double>(begin: beginAngle, end: endAngle)
+          .chain(CurveTween(curve: curve));
       var angleAnimation = animation.drive(angleTween);
       return RotationTransition(turns: angleAnimation, child: child);
     };
@@ -138,7 +141,8 @@ class TransitionFactory {
     double endOpacity = 1.0,
   }) {
     return (context, animation, secondaryAnimation, child) {
-      var colorTween = ColorTween(begin: beginColor, end: endColor).chain(CurveTween(curve: Curves.easeInOut));
+      var colorTween = ColorTween(begin: beginColor, end: endColor)
+          .chain(CurveTween(curve: Curves.easeInOut));
       var opacityTween = Tween<double>(begin: beginOpacity, end: endOpacity);
 
       var colorAnimation = animation.drive(colorTween);
@@ -174,8 +178,10 @@ class TransitionFactory {
     Curve curve = Curves.easeInOut,
   }) {
     return (context, animation, secondaryAnimation, child) {
-      var offsetTween = Tween<Offset>(begin: begin, end: Offset.zero).chain(CurveTween(curve: curve));
-      var angleTween = Tween<double>(begin: beginAngle, end: 0).chain(CurveTween(curve: curve));
+      var offsetTween = Tween<Offset>(begin: begin, end: Offset.zero)
+          .chain(CurveTween(curve: curve));
+      var angleTween = Tween<double>(begin: beginAngle, end: 0)
+          .chain(CurveTween(curve: curve));
 
       var offsetAnimation = animation.drive(offsetTween);
       var angleAnimation = animation.drive(angleTween);
@@ -184,7 +190,8 @@ class TransitionFactory {
         animation: animation,
         builder: (context, child) {
           return Transform(
-            transform: Matrix4.translationValues(offsetAnimation.value.dx, offsetAnimation.value.dy, 0)
+            transform: Matrix4.translationValues(
+                offsetAnimation.value.dx, offsetAnimation.value.dy, 0)
               ..rotateZ(angleAnimation.value),
             child: child,
           );

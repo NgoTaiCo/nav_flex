@@ -100,7 +100,8 @@ class DetailsPage extends StatelessWidget {
     );
 
     // Extract arguments passed to this route
-    final map = NavigationService.getCurrentRouteSettings(context)?.arguments as Map<String, Object?>?;
+    final map = NavigationService.getCurrentRouteSettings(context)?.arguments
+        as Map<String, Object?>?;
     final id = map?['id'];
     final name = map?['name'];
 

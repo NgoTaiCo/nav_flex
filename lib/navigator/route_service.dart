@@ -43,7 +43,8 @@ class RouteService {
   ///   },
   /// );
   /// ```
-  static void addRoute(String routeName, WidgetBuilder builder, {NavigationGuard? guard}) {
+  static void addRoute(String routeName, WidgetBuilder builder,
+      {NavigationGuard? guard}) {
     _customRoutes[routeName] = builder;
     if (guard != null) {
       _routeGuards[routeName] = guard;

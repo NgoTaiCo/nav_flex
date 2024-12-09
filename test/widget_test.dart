@@ -7,7 +7,8 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('RouteService Tests', () {
-    testWidgets('addRoute and getWidgetForRoute should work', (WidgetTester tester) async {
+    testWidgets('addRoute and getWidgetForRoute should work',
+        (WidgetTester tester) async {
       RouteService.addRoute('testRoute', (context) => const Text('Test Page'));
 
       await tester.pumpWidget(MaterialApp(
@@ -15,11 +16,13 @@ void main() {
         home: const Scaffold(),
       ));
 
-      final routeWidget = RouteService.getWidgetForRoute('testRoute', tester.element(find.byType(Scaffold)));
+      final routeWidget = RouteService.getWidgetForRoute(
+          'testRoute', tester.element(find.byType(Scaffold)));
       expect(routeWidget, isA<Text>());
     });
 
-    testWidgets('checkGuard should return true by default', (WidgetTester tester) async {
+    testWidgets('checkGuard should return true by default',
+        (WidgetTester tester) async {
       final canNavigate = await RouteService.checkGuard('testRoute');
       expect(canNavigate, true);
     });

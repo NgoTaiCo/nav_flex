@@ -29,7 +29,8 @@ part of 'nav_flex.dart';
 /// );
 /// ```
 class NavigationService {
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
   static final List<String> history = [];
   static bool isPopUntilActive = false;
 

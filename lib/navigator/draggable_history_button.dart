@@ -87,7 +87,9 @@ class _DraggableHistoryButtonState extends State<DraggableHistoryButton> {
                         ),
                       )
                     : Icon(
-                        _isHistoryVisible ? (widget.closeIcon ?? Icons.close) : (widget.openIcon ?? Icons.history),
+                        _isHistoryVisible
+                            ? (widget.closeIcon ?? Icons.close)
+                            : (widget.openIcon ?? Icons.history),
                         color: Colors.white,
                         size: buttonSize / 2,
                       ),
@@ -96,7 +98,8 @@ class _DraggableHistoryButtonState extends State<DraggableHistoryButton> {
           ),
           if (_isHistoryVisible)
             Positioned(
-              left: (_buttonPosition.dx + buttonSize > screenSize.width - historyBoxWidth)
+              left: (_buttonPosition.dx + buttonSize >
+                      screenSize.width - historyBoxWidth)
                   ? _buttonPosition.dx - historyBoxWidth
                   : _buttonPosition.dx + buttonSize,
               top: _buttonPosition.dy,
