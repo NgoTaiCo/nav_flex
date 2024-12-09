@@ -1,30 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:nav_flex/main.dart';
+import 'package:nav_flex/navigator/nav_flex.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  // Setup the necessary dependencies before running the tests.
+  TestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  group('RouteService Tests', () {
+    testWidgets('addRoute and getWidgetForRoute should work', (WidgetTester tester) async {
+      RouteService.addRoute('testRoute', (context) => const Text('Test Page'));
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+      await tester.pumpWidget(MaterialApp(
+        navigatorKey: NavigationService.navigatorKey,
+        home: const Scaffold(),
+      ));
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+      final routeWidget = RouteService.getWidgetForRoute('testRoute', tester.element(find.byType(Scaffold)));
+      expect(routeWidget, isA<Text>());
+    });
+
+    testWidgets('checkGuard should return true by default', (WidgetTester tester) async {
+      final canNavigate = await RouteService.checkGuard('testRoute');
+      expect(canNavigate, true);
+    });
   });
 }
