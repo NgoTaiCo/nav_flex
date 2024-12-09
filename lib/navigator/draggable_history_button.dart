@@ -1,5 +1,21 @@
 part of 'nav_flex.dart';
 
+/// The `DraggableHistoryButton` is a floating button widget that allows
+/// users to view and navigate through navigation history dynamically.
+///
+/// ### Features:
+/// - Draggable across the screen.
+/// - Toggleable history box to view routes.
+/// - Customizable button size, colors, and icons.
+///
+/// ### Example:
+/// ```dart
+/// DraggableHistoryButton(
+///   buttonColor: Colors.blue,
+///   openIcon: Icons.history,
+///   closeIcon: Icons.close,
+/// );
+/// ```
 class DraggableHistoryButton extends StatefulWidget {
   final Color? buttonColor;
   final IconData? openIcon;
